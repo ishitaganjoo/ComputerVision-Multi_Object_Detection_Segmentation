@@ -7,7 +7,9 @@ using namespace std;
 int main(int argc, char** argv )
 {
     // Read an image
-    Mat img = imread("bengal-tiger-why-matter_7341043.jpg");
+    string image_name = argv[1];
+    cout<<image_name<<endl;
+    Mat img = imread(image_name);
     int rows = img.rows;
     int cols = img.cols;
     
@@ -19,8 +21,8 @@ int main(int argc, char** argv )
     int height = 128;
     Mat resizedImg;
     resize(img, resizedImg, Size(width,height));
-    //cout<< resizedImg.at<double>(10,10)<<endl;
-    //cout<<resizedImg.rows<<endl;
+    cout<< resizedImg.at<double>(10,10)<<endl;
+    cout<<resizedImg.rows<<endl;
     //img.convertTo(img, CV_32F, 1/255.0);
  
    // Calculate gradients gx, gy
