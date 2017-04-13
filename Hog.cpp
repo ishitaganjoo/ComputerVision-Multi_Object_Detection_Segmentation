@@ -1,19 +1,64 @@
 #include <stdio.h>
+#include <Sift.h>
 #include <vector>
 #include <opencv2/opencv.hpp>
+#include "CImg.h"
 
 using namespace cv;
 using namespace std;
+using namespace cimg_library;
+
+void calculateSift(CImg<double> inputImage){
+
+  CImg<double> grayImage = inputImage.get_RGBtoHSI().get_channel(2);
+  vector<SiftDescriptor> descriptors = Sift::compute_sift(grayImage);
+	for(int i=0; i<descriptors.size(); i++)
+		{
+			for(int j=0; j<5; j++)
+				for(int k=0; k<5; k++)
+			if(j==2 || k==2)
+				for(int p=0; p<3; p++)
+					inputImage(descriptors[i].col+k-1, descriptors[i].row+j-1, 0, p)=0;
+
+		}
+		string fileName = "sift.png";
+		inputImage.get_normalize(0, 255).save(fileName.c_str());
+		//return descriptors;
+}
+
+Mat createImage(vector<double> featureVector){
+  Mat hogImage = Mat(35,35, CV_64F);
+  int count = 1;
+  for(int i=0; i<35; i++){
+    for(int j=0; j<35; j++){
+      if(count < featureVector.size()){
+        hogImage.at<double>(i, j) = featureVector.at(count);
+      }
+      else{
+        hogImage.at<double>(i, j) = 0;
+      }
+      count++;
+    }
+  }
+  return hogImage;
+}
 
 void normalizeFeatureVector(vector<double>* finalFeatureVector){
-  double val;
+  double val = 0;
   for(int i=0; i<finalFeatureVector->size(); i++){
+	cout<<"inside loop "<<finalFeatureVector->at(i)<<endl;
+	if(finalFeatureVector->at(i) < 0){
+		finalFeatureVector->at(i) = 0;
+	}
     val += finalFeatureVector->at(i) * finalFeatureVector->at(i);
   }
+	cout<<"value before is "<<val<<endl;
   val = sqrt(val);
+	cout<<"value is "<<val<<endl;
   for(int i=0; i<finalFeatureVector->size(); i++){
     finalFeatureVector->at(i) = finalFeatureVector->at(i) / val;
   }
+	cout <<"Tatti "<<finalFeatureVector->at(0)<<endl;
 }
 
 
@@ -49,6 +94,7 @@ int main(int argc, char** argv )
 {
     // Read an image
     string image_name = argv[1];
+
     //cout<<image_name<<endl;
     Mat img = imread(image_name, CV_LOAD_IMAGE_COLOR);
 	  img.convertTo(img, CV_32F, 1/255.0);
@@ -93,7 +139,7 @@ int main(int argc, char** argv )
 
     for(int i=0; i<height; i++){
        for(int j=0; j<width; j++){
-			double val;
+			double val = 0;
 			double xVal = gx.at<double>(i, j);
 			double yVal = gy.at<double>(i, j);
 			val = atan2(xVal, yVal);
@@ -130,9 +176,9 @@ int main(int argc, char** argv )
           saveBin(&histBin, angleImage.at<double>(m,n), magImage.at<double>(m,n));
         }
       }
-	//cout<<"before pushing "<<endl;
+	//cout<<histBin[0]<<endl;
       histogramBins.push_back(histBin);
-	//cout<<"after pushing "<<endl;
+	//cout<<"rohil "<<histogramBins[0][0]<<endl;
     }
    }
 	cout<<"outside"<<endl;
@@ -140,6 +186,7 @@ int main(int argc, char** argv )
 	for(int i=0; i<histogramBins.size(); i++){
 		for(int j=0; j<9; j++){
 			finalFeatureVector.push_back(histogramBins[i][j]);
+			cout<<"Ishita "<<histogramBins[i][j]<<"i "<<i<<" j "<<j<<endl;
 		}
 	}
   normalizeFeatureVector(&finalFeatureVector);
@@ -148,6 +195,16 @@ int main(int argc, char** argv )
       cout<<finalFeatureVector[i]<<endl;
     }
 
+    Mat finalImage = createImage(finalFeatureVector);
+
+    // //CImg for SIFT
+     CImg<double> imageCImg(image_name.c_str());
+    //
+     calculateSift(imageCImg);
+
+    //CImg Ending
+
    imwrite("test.jpg", resizedGray);
+   imwrite("finalImage.jpg", finalImage);
    return 0;
 }
