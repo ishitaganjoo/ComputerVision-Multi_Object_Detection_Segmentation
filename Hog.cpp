@@ -58,7 +58,7 @@ void normalizeFeatureVector(vector<double>* finalFeatureVector){
   for(int i=0; i<finalFeatureVector->size(); i++){
     finalFeatureVector->at(i) = finalFeatureVector->at(i) / val;
   }
-	cout <<"Tatti "<<finalFeatureVector->at(0)<<endl;
+	cout <<"vector"<<finalFeatureVector->at(0)<<endl;
 }
 
 
