@@ -799,19 +799,19 @@ int main(int argc, char** argv )
     for(int i=0; i<class_list.size(); i++){
       cout<<class_list[i]<<endl;
     }
-  //   for(int i=0; i<class_list.size(); i++){
-  //       cout<<class_list[i]<<endl;
-  //       string readFile = mode;
-  //       readFile += "/";
-  //       readFile += class_list[i];
-  //       CImg<double> imageCImg(readFile.c_str());
-  //       Mat inputImageOCV = imread(readFile, CV_LOAD_IMAGE_COLOR);
-  //     cout<<"before sift"<<endl;
-  //      vector<SiftDescriptor> siftDescriptors = calculateSift(imageCImg, i+1);
-  //      cout<<"after sift"<<endl;
-  //      aggClustering(siftDescriptors, inputImageOCV, i+1);
-  //      cout<<"after clustering"<<endl;
-  //  }
+    for(int i=0; i<class_list.size(); i++){
+        cout<<class_list[i]<<endl;
+        string readFile = mode;
+        readFile += "/";
+        readFile += class_list[i];
+        CImg<double> imageCImg(readFile.c_str());
+        Mat inputImageOCV = imread(readFile, CV_LOAD_IMAGE_COLOR);
+      cout<<"before sift"<<endl;
+       vector<SiftDescriptor> siftDescriptors = calculateSift(imageCImg, i+1);
+       cout<<"after sift"<<endl;
+       aggClustering(siftDescriptors, inputImageOCV, i+1);
+       cout<<"after clustering"<<endl;
+   }
 
     //CImg Ending
 
