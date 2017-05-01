@@ -1,7 +1,7 @@
 // This code is inspired from the pseudocode of Otsu algorithm given by
-// A C++ Implementation of Otsu’s Image Segmentation Method Juan Pablo Balarini, Sergio Nesmachnow
+// A C++ Implementation of Otsuâ€™s Image Segmentation Method Juan Pablo Balarini, Sergio Nesmachnow
 
-// The code for canny edge detection is taken from our implementation in Assignment 1.
+// The code for canny edge detection is adapted from our implementation in Assignment 1.
 
 #include <limits>
 #include <string>
