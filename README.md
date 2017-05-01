@@ -1,4 +1,2 @@
 # Computer Vision Final Project
-Rohil Bansal
-Ishita Ganjoo
-Archana Molasi
+Rohil Bansal, Ishita Ganjoo, Archana Molasi
