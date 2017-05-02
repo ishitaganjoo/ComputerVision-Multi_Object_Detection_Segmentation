@@ -25,6 +25,7 @@ using namespace cv;
 
 
 // Get training files
+// Code by Prof. Crandall
 vector<string> files_in_directory(const string &directory, bool prepend_directory = false)
 {
   vector<string> file_list;
@@ -42,17 +43,18 @@ vector<string> files_in_directory(const string &directory, bool prepend_director
 
 
 //Hog calculation
+//http://stackoverflow.com/questions/11626140/extracting-hog-features-using-opencv
 vector<float> calculateHog(Mat img)
 {
 HOGDescriptor hog;
 vector<float> desc;
-vector<Point>locs;
+vector<Point> points;
 resize(img, img, Size(100, 200));
-hog.compute(img, desc, Size(64, 128), Size(8, 8), locs);
+hog.compute(img, desc, Size(64, 128), Size(8, 8), points);
 return desc;
 }
 
-// Neighbours
+// Neighbours of the sliding window
 void neighbours(int width, int c, int r, int window, int height, int windowH, Mat img)
 {
     int predictionValue = 0;
@@ -76,7 +78,7 @@ void neighbours(int width, int c, int r, int window, int height, int windowH, Ma
 output.close();
 }
 
-// Sliding window
+// Sliding window on test image
 vector<Rect> slidingWindow(Mat img, vector<pair<string, Point> >* labels)
 {
     map<int, string> classLabels;
@@ -293,7 +295,7 @@ else if (mode == "Test")
     // Read all files, calclulate hog and create svm training file
     for (int i = 0; i < class_list.size(); i++)
       {
-      //http://stackoverflow.com/questions/22314949/compare-two-bounding-boxes-with-each-other-matlab
+      
       string fileName = class_list[i];
       int indexExt = fileName.find_last_of(".");
       Mat grayImg = imread("../"+mode+"/VOCdevkit/VOC2007/JPEGImages/"+fileName);
@@ -388,6 +390,7 @@ else if (mode == "Test")
     {
       if (original == labels[i].first)
         {
+        //http://stackoverflow.com/questions/22314949/compare-two-bounding-boxes-with-each-other-matlab 
         Rect intersectionArea = groundTruth[i] & rectangles[j];
         float unionArea = (groundTruth[i].height*groundTruth[i].width)+(rectangles[j].height*rectangles[j].width) - (intersectionArea.height*intersectionArea.width);
         float overlapArea = (intersectionArea.height*intersectionArea.width) / unionArea;
