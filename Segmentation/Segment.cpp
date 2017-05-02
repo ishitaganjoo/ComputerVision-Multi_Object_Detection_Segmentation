@@ -26,7 +26,7 @@
 using namespace cv;
 using namespace std;
 
-
+// If an edge is found for canny.
 bool foundEdge(Mat output_after_nms, int window, int row, int col)
 {
 for (int r = row-window; r<=row+window; r++)
@@ -41,7 +41,6 @@ return false;
 }
 
 // Hysterisis thresholding
-
 void hysterisisThresholding(Mat output_after_nms, Mat output_hysterisis)
 {
     int height = output_after_nms.rows;
@@ -181,7 +180,7 @@ Mat sobel_gradient_filter(Mat input, bool _gx)
 void cannyDetection(Mat originalImage, string fileName){
     Mat grayImage;
     cvtColor(originalImage, grayImage, CV_BGR2GRAY);
-    //imwrite("cannygrayimage.jpg", grayImage);
+    imwrite("cannygrayimage.jpg", grayImage);
     Mat gaussian_filter = Mat(3,3, CV_64F);
     gaussian_filter.at<double>(0, 0) = 0.0625;
     gaussian_filter.at<double>(0, 1) = 0.125;
@@ -203,7 +202,8 @@ void cannyDetection(Mat originalImage, string fileName){
 int main(int argc, char** argv ){
     string method = argv[1];
     string fileName = argv[2];
-
+    //This code is inspired from the pseudocode of Otsu algorithm given by
+	// A C++ Implementation of Otsu’s Image Segmentation Method Juan Pablo Balarini, Sergio Nesmachnow
     if (method == "otsu"){
     // Read an image and conver to grayscale
     Mat grayImg = imread(fileName, CV_LOAD_IMAGE_GRAYSCALE);	
@@ -231,7 +231,7 @@ int main(int argc, char** argv ){
 
     for (int i = 0; i <= 255; i++)
     	sum += i*histogram[i];
-
+    // Find the threshold
     for (int i = 0; i <= 255; i++)
     {
     	q1 += histogram[i];
