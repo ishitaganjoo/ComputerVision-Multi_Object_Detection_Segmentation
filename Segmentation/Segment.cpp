@@ -1,5 +1,5 @@
 // This code is inspired from the pseudocode of Otsu algorithm given by
-// A C++ Implementation of Otsuâ€™s Image Segmentation Method Juan Pablo Balarini, Sergio Nesmachnow
+// A C++ Implementation of Otsu's Image Segmentation Method Juan Pablo Balarini, Sergio Nesmachnow
 
 // The code for canny edge detection is adapted from our implementation in Assignment 1.
 
@@ -180,7 +180,7 @@ Mat sobel_gradient_filter(Mat input, bool _gx)
 void cannyDetection(Mat originalImage, string fileName){
     Mat grayImage;
     cvtColor(originalImage, grayImage, CV_BGR2GRAY);
-    imwrite("cannygrayimage.jpg", grayImage);
+    //imwrite("cannygrayimage.jpg", grayImage);
     Mat gaussian_filter = Mat(3,3, CV_64F);
     gaussian_filter.at<double>(0, 0) = 0.0625;
     gaussian_filter.at<double>(0, 1) = 0.125;
@@ -203,7 +203,7 @@ int main(int argc, char** argv ){
     string method = argv[1];
     string fileName = argv[2];
     //This code is inspired from the pseudocode of Otsu algorithm given by
-  // A C++ Implementation of Otsuâ€™s Image Segmentation Method Juan Pablo Balarini, Sergio Nesmachnow
+    // A C++ Implementation of Otsu's Image Segmentation Method Juan Pablo Balarini, Sergio Nesmachnow
     if (method == "otsu"){
     // Read an image and conver to grayscale
     Mat grayImg = imread(fileName, CV_LOAD_IMAGE_GRAYSCALE);  
