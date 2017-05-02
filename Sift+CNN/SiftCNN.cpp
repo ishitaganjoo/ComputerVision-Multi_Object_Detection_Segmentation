@@ -49,8 +49,8 @@ void combineClusters(int desc1, int desc2, vector< vector<SiftDescriptor> > &des
 // Agglomerative clustering
 void aggClustering(vector<SiftDescriptor> siftDescriptors, Mat inputImage, int classLabel){
   vector< vector<SiftDescriptor> > myArray(siftDescriptors.size());
-  cout<<myArray.size()<<endl;
-  cout<<myArray[1].size()<<endl;
+  //cout<<myArray.size()<<endl;
+  //cout<<myArray[1].size()<<endl;
   for(int i=0; i<siftDescriptors.size(); i++){
     myArray[i].push_back(siftDescriptors[i]);
   }
@@ -200,6 +200,7 @@ int main(int argc, char** argv )
   classLabels["tvmonitor"] = 20;
   vector<string> class_list = files_in_directory("../"+mode+"/VOCdevkit/VOC2007/JPEGImages");
   int objectCount = 0;
+  cout << "Preparing ground truth of test images "<<endl;
   ofstream output("ground_truth_sift_training.txt");
   // Read all files for testing
   for (int i = 0; i < class_list.size(); i++)
@@ -232,7 +233,7 @@ int main(int argc, char** argv )
                 count++;
                 int lastBracket = line.find_last_of("<");
                 className = line.substr(closeBracket + 1, lastBracket - closeBracket - 1);
-                cout <<"class name "<<className<<endl;
+                //cout <<"class name "<<className<<endl;
               }
             else if (tagName == "xmin")
               {
@@ -261,7 +262,7 @@ int main(int argc, char** argv )
                 width = ymax - y;
                 foundPart = false;
                 foundObject = false;
-                cout <<fileTrain<<endl;              
+                //cout <<fileTrain<<endl;              
             }
           }
             if (count == 5)
@@ -278,6 +279,7 @@ int main(int argc, char** argv )
 }
      
   flush(output);
+  cout << "Ground truth of test images prepared."<<endl;
   cout << "Making directories " << endl;
   string str = "mkdir LocalizedImages";
   const char *command = str.c_str();
