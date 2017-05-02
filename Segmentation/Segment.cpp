@@ -1,5 +1,5 @@
 // This code is inspired from the pseudocode of Otsu algorithm given by
-// A C++ Implementation of Otsu’s Image Segmentation Method Juan Pablo Balarini, Sergio Nesmachnow
+// A C++ Implementation of Otsuâ€™s Image Segmentation Method Juan Pablo Balarini, Sergio Nesmachnow
 
 // The code for canny edge detection is adapted from our implementation in Assignment 1.
 
@@ -203,10 +203,10 @@ int main(int argc, char** argv ){
     string method = argv[1];
     string fileName = argv[2];
     //This code is inspired from the pseudocode of Otsu algorithm given by
-	// A C++ Implementation of Otsu’s Image Segmentation Method Juan Pablo Balarini, Sergio Nesmachnow
+  // A C++ Implementation of Otsuâ€™s Image Segmentation Method Juan Pablo Balarini, Sergio Nesmachnow
     if (method == "otsu"){
     // Read an image and conver to grayscale
-    Mat grayImg = imread(fileName, CV_LOAD_IMAGE_GRAYSCALE);	
+    Mat grayImg = imread(fileName, CV_LOAD_IMAGE_GRAYSCALE);  
     int height = grayImg.rows;
     int width = grayImg.cols;
     Mat outputImg = Mat::zeros(height, width, CV_32F);
@@ -215,13 +215,13 @@ int main(int argc, char** argv ){
 
     // Initialise the histogram
     for (int i = 0; i <= 255; i++)
-    	histogram[i] = 0;
+      histogram[i] = 0;
 
      for (int i = 0; i < width-1; i++)
     {
-    	for (int j = 0; j < height-1; j++){
-    		histogram[(int)grayImg.at<uchar>(j, i) ] += 1; 		
-    	}
+      for (int j = 0; j < height-1; j++){
+        histogram[(int)grayImg.at<uchar>(j, i) ] += 1;    
+      }
     }
 
     // Use Otsu to calculate threshold
@@ -230,31 +230,31 @@ int main(int argc, char** argv ){
     int total = height*width;
 
     for (int i = 0; i <= 255; i++)
-    	sum += i*histogram[i];
+      sum += i*histogram[i];
     // Find the threshold
     for (int i = 0; i <= 255; i++)
     {
-    	q1 += histogram[i];
-    	if (q1 == 0)
-    		continue;
-    	q2 = total - q1;
-    	sum1 += i*histogram[i];
-    	mean1 = sum1/q1;
-    	mean2 = (sum-sum1)/q2;
-    	variance = q1*q2*(mean1-mean2)*(mean1-mean2);
-    	if (variance > max_variance){
-    		threshold = i;
-    		max_variance = variance;
-    	}
+      q1 += histogram[i];
+      if (q1 == 0)
+        continue;
+      q2 = total - q1;
+      sum1 += i*histogram[i];
+      mean1 = sum1/q1;
+      mean2 = (sum-sum1)/q2;
+      variance = q1*q2*(mean1-mean2)*(mean1-mean2);
+      if (variance > max_variance){
+        threshold = i;
+        max_variance = variance;
+      }
     }
 
     for (int i = 0; i < width-1; i++)
     {
-    	for (int j = 0; j < height-1; j++){
-    		if((int)grayImg.at<uchar>(j, i) > threshold){
-    			outputImg.at<float>(j, i) = 255;
-    		}    		
-    	}
+      for (int j = 0; j < height-1; j++){
+        if((int)grayImg.at<uchar>(j, i) > threshold){
+          outputImg.at<float>(j, i) = 255;
+        }       
+      }
     }
    imwrite(fileName+"_otsu.jpg", outputImg);
 }
@@ -269,6 +269,5 @@ else if (method == "canny")
         }
         cannyDetection(src, fileName);
     }
-	return 0;
+  return 0;
 }
-
